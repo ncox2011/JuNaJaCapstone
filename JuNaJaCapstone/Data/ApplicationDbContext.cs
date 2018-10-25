@@ -14,5 +14,7 @@ namespace JuNaJaCapstone.Data
         {
         }
         public DbSet<JuNaJaCapstone.Models.Property> Property { get; set; }
+        public DbSet<JuNaJaCapstone.Models.PropertyNote> PropertyNote { get; set; }
+        public DbSet<JuNaJaCapstone.Models.PropertyImage> PropertyImage { get; set; }
     }
 }

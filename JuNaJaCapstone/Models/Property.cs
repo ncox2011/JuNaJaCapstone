@@ -38,6 +38,7 @@ namespace JuNaJaCapstone.Models
         public bool Rented { get; set; }
 
         [Required]
+        [Display(Name = "Property Owner")]
         public virtual IdentityUser User { get; set; }
 
         public string UserId { get; set; }
@@ -45,9 +46,9 @@ namespace JuNaJaCapstone.Models
         [DataType(DataType.Date)]
         public DateTime? DateSold { get; set; }
 
-        public virtual ICollection<PropertyNote> Notes {get; set;}
+        public List<PropertyNote> Notes {get; set;}
 
-        public virtual ICollection<PropertyImage> Image { get; set; }
+        public List<PropertyImage> Images { get; set; }
 
     }
 }

@@ -13,7 +13,7 @@ namespace JuNaJaCapstone.Models
 
         public string ImgURL { get; set; }
 
-        public int? PropertyId { get; set; }
+        public int PropertyId { get; set; }
         public Property Property { get; set; }
     }
 }

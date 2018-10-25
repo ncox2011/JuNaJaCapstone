@@ -16,28 +16,13 @@
                 @Html.DisplayNameFor(model => model.Address)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Bedrooms)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Bathrooms)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Rent)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Mortgage)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Rented)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateSold)
             </th>
             <th></th>
         </tr>
@@ -49,28 +34,13 @@
                 @Html.DisplayFor(modelItem => item.Address)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Bedrooms)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Bathrooms)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Rent)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Mortgage)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Rented)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateSold)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.PropertyId">Edit</a> |

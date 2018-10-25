@@ -10,23 +10,23 @@ using JuNaJaCapstone.Models;
 
 namespace JuNaJaCapstone.Controllers
 {
-    public class PropertiesController : Controller
+    public class PropertyNotesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public PropertiesController(ApplicationDbContext context)
+        public PropertyNotesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Properties
+        // GET: PropertyNotes
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Property.Include(p => p.User);
+            var applicationDbContext = _context.PropertyNote.Include(p => p.Property);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Properties/Details/5
+        // GET: PropertyNotes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,45 +34,42 @@ namespace JuNaJaCapstone.Controllers
                 return NotFound();
             }
 
-            var property = await _context.Property
-                .Include(p => p.User)
-                .FirstOrDefaultAsync(m => m.PropertyId == id);
-            if (property == null)
+            var propertyNote = await _context.PropertyNote
+                .Include(p => p.Property)
+                .FirstOrDefaultAsync(m => m.NoteId == id);
+            if (propertyNote == null)
             {
                 return NotFound();
             }
 
-            return View(property);
+            return View(propertyNote);
         }
 
-        // GET: Properties/Create
+        // GET: PropertyNotes/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["PropertyId"] = new SelectList(_context.Property, "PropertyId", "UserId");
             return View();
         }
 
-        // POST: Properties/Create
+        // POST: PropertyNotes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PropertyId,Address,Description,Bedrooms,Bathrooms,Rent,Mortgage,Rented,UserId,DateSold")] Property property)
+        public async Task<IActionResult> Create([Bind("NoteId,NoteText,DateNoted,PropertyId")] PropertyNote propertyNote)
         {
-            // Remove the user from the model validation because it is
-            // not information posted in the form
-            ModelState.Remove("User");
             if (ModelState.IsValid)
             {
-                _context.Add(property);
+                _context.Add(propertyNote);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Details", new { id = property.PropertyId });
+                return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", property.UserId);
-            return View(property);
+            ViewData["PropertyId"] = new SelectList(_context.Property, "PropertyId", "UserId", propertyNote.PropertyId);
+            return View(propertyNote);
         }
 
-        // GET: Properties/Edit/5
+        // GET: PropertyNotes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -80,37 +77,37 @@ namespace JuNaJaCapstone.Controllers
                 return NotFound();
             }
 
-            var property = await _context.Property.FindAsync(id);
-            if (property == null)
+            var propertyNote = await _context.PropertyNote.FindAsync(id);
+            if (propertyNote == null)
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", property.UserId);
-            return View(property);
+            ViewData["PropertyId"] = new SelectList(_context.Property, "PropertyId", "UserId", propertyNote.PropertyId);
+            return View(propertyNote);
         }
 
-        // POST: Properties/Edit/5
+        // POST: PropertyNotes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PropertyId,Address,Description,Bedrooms,Bathrooms,Rent,Mortgage,Rented,UserId,DateSold")] Property @property)
+        public async Task<IActionResult> Edit(int id, [Bind("NoteId,NoteText,DateNoted,PropertyId")] PropertyNote propertyNote)
         {
-            if (id != property.PropertyId)
+            if (id != propertyNote.NoteId)
             {
                 return NotFound();
             }
-            ModelState.Remove("User");
+
             if (ModelState.IsValid)
             {
                 try
-                {   
-                    _context.Update(property);
+                {
+                    _context.Update(propertyNote);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PropertyExists(property.PropertyId))
+                    if (!PropertyNoteExists(propertyNote.NoteId))
                     {
                         return NotFound();
                     }
@@ -121,11 +118,11 @@ namespace JuNaJaCapstone.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", property.UserId);
-            return View(property);
+            ViewData["PropertyId"] = new SelectList(_context.Property, "PropertyId", "UserId", propertyNote.PropertyId);
+            return View(propertyNote);
         }
 
-        // GET: Properties/Delete/5
+        // GET: PropertyNotes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -133,31 +130,31 @@ namespace JuNaJaCapstone.Controllers
                 return NotFound();
             }
 
-            var @property = await _context.Property
-                .Include(p => p.User)
-                .FirstOrDefaultAsync(m => m.PropertyId == id);
-            if (@property == null)
+            var propertyNote = await _context.PropertyNote
+                .Include(p => p.Property)
+                .FirstOrDefaultAsync(m => m.NoteId == id);
+            if (propertyNote == null)
             {
                 return NotFound();
             }
 
-            return View(@property);
+            return View(propertyNote);
         }
 
-        // POST: Properties/Delete/5
+        // POST: PropertyNotes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var @property = await _context.Property.FindAsync(id);
-            _context.Property.Remove(@property);
+            var propertyNote = await _context.PropertyNote.FindAsync(id);
+            _context.PropertyNote.Remove(propertyNote);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PropertyExists(int id)
+        private bool PropertyNoteExists(int id)
         {
-            return _context.Property.Any(e => e.PropertyId == id);
+            return _context.PropertyNote.Any(e => e.NoteId == id);
         }
     }
 }

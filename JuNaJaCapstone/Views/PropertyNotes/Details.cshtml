@@ -1,0 +1,36 @@
+﻿@model JuNaJaCapstone.Models.PropertyNote
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PropertyNote</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NoteText)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NoteText)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateNoted)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateNoted)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Property)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Property.UserId)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.NoteId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

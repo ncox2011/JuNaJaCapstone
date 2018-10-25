@@ -18,7 +18,7 @@ namespace JuNaJaCapstone.Models
         [Display(Name ="Note Date")]
         public DateTime? DateNoted { get; set; }
 
-        public int? PropertyId { get; set; }
+        public int PropertyId { get; set; }
         public Property Property { get; set; }
 
     }
