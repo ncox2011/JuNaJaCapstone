@@ -1,4 +1,4 @@
-﻿@model JuNaJaCapstone.Models.Property
+﻿@model JuNaJaCapstone.Models.PropertyDetailViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -11,66 +11,80 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Address)
+            @Html.DisplayNameFor(model => model.Property.Address)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Address)
+            @Html.DisplayFor(model => model.Property.Address)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.Property.Description)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.Property.Description)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Bedrooms)
+            @Html.DisplayNameFor(model => model.Property.Bedrooms)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Bedrooms)
+            @Html.DisplayFor(model => model.Property.Bedrooms)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Bathrooms)
+            @Html.DisplayNameFor(model => model.Property.Bathrooms)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Bathrooms)
+            @Html.DisplayFor(model => model.Property.Bathrooms)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Rent)
+            @Html.DisplayNameFor(model => model.Property.Rent)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Rent)
+            @Html.DisplayFor(model => model.Property.Rent)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Mortgage)
+            @Html.DisplayNameFor(model => model.Property.Mortgage)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Mortgage)
+            @Html.DisplayFor(model => model.Property.Mortgage)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Rented)
+            @Html.DisplayNameFor(model => model.Property.Rented)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Rented)
+            @Html.DisplayFor(model => model.Property.Rented)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.User)
+            @Html.DisplayNameFor(model => model.Property.User)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.User.UserName)
+            @Html.DisplayFor(model => model.Property.User.UserName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.DateSold)
+            @Html.DisplayNameFor(model => model.Property.DateSold)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.DateSold)
+            @Html.DisplayFor(model => model.Property.DateSold)
         </dd>
         <dd>
-            @Html.DisplayFor(model => model.Notes)
+            @Html.DisplayNameFor(model => model.Property.Notes)
         </dd>
+       
+        <dd>
+            <ul>
+            @foreach (var item in Model.Property.Notes)
+            {
+                <li>
+                @Html.DisplayFor(modelItem => item.NoteText)
+                    </li>
+            }
+                </ul>
+            </dd>
+        
+
+
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.PropertyId">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Property.PropertyId">Edit</a> |
     <a asp-action="Index">Back to List</a> |
-    <a asp-controller="PropertyNotes" asp-action="Create">Add Note</a>
+    @Html.ActionLink("Add Note", "Create", "PropertyNotes", new { id = @Model.Property.PropertyId }, null)
 </div>

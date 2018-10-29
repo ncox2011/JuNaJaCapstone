@@ -46,10 +46,16 @@ namespace JuNaJaCapstone.Controllers
         }
 
         // GET: PropertyNotes/Create
-        public IActionResult Create()
+        public IActionResult Create(int Id)
         {
-            ViewData["PropertyId"] = new SelectList(_context.Property, "PropertyId", "UserId");
-            return View();
+            //PropertyNoteCreateViewModel viewModel = new PropertyNoteCreateViewModel(new PropertyNote ());
+
+            //viewModel.Note.PropertyId = Id;
+
+            //viewdata["propertyid"] = new selectlist(_context.property, "propertyid", "userid");
+            PropertyNote note = new PropertyNote();
+            note.PropertyId = Id;
+            return View(note);
         }
 
         // POST: PropertyNotes/Create
@@ -57,13 +63,14 @@ namespace JuNaJaCapstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("NoteId,NoteText,DateNoted,PropertyId")] PropertyNote propertyNote)
+        public async Task<IActionResult> Create([Bind("NoteText,DateNoted,PropertyId")] PropertyNote propertyNote)
         {
             if (ModelState.IsValid)
             {
+                
                 _context.Add(propertyNote);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Properties");
             }
             ViewData["PropertyId"] = new SelectList(_context.Property, "PropertyId", "UserId", propertyNote.PropertyId);
             return View(propertyNote);

@@ -44,7 +44,7 @@ namespace JuNaJaCapstone.Models
         public string UserId { get; set; }
 
         [DataType(DataType.Date)]
-        public DateTime? DateSold { get; set; }
+        public Nullable<DateTime> DateSold { get; set; }
 
         public List<PropertyNote> Notes {get; set;}
 
