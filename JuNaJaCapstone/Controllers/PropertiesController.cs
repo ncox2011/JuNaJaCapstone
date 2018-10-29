@@ -22,7 +22,7 @@ namespace JuNaJaCapstone.Controllers
         // GET: Properties
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Property.Include(p => p.User);
+            var applicationDbContext = _context.Property.Include(p => p.User).Include(p => p.Notes);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -33,16 +33,18 @@ namespace JuNaJaCapstone.Controllers
             {
                 return NotFound();
             }
+            var viewModel = new PropertyDetailViewModel();
 
-            var property = await _context.Property
+            viewModel.Property = await _context.Property
                 .Include(p => p.User)
+                .Include(p => p.Notes)
                 .FirstOrDefaultAsync(m => m.PropertyId == id);
-            if (property == null)
+            if (viewModel.Property == null)
             {
                 return NotFound();
             }
 
-            return View(property);
+            return View(viewModel);
         }
 
         // GET: Properties/Create
