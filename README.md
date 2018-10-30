@@ -1,9 +1,11 @@
 # JuNaJaCapstone
 
-*A property tracker application that allows a user to add property details and notes to keep track of rental*
-*properties they own.*
-*Created With*
-**C#, .Net, Entity Framework, and Identity 
+**A property tracker application that allows a user to add property details and notes to keep track of rental**
+**properties they own.**
+
+
+**Created With**
+C#, .Net, Entity Framework, and Identity 
 
 Git Clone JuNaJaCapstone into your local system
 cd into project file
