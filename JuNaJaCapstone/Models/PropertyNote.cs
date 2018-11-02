@@ -14,9 +14,9 @@ namespace JuNaJaCapstone.Models
         [Display(Name = "Notes")]
         public string NoteText { get; set; }
 
-        [DataType(DataType.Date)]
-        [Display(Name ="Date")]
-        public Nullable<DateTime> DateNoted { get; set; }
+        //[DataType(DataType.Date)]
+        //[Display(Name ="Date")]
+        //public Nullable<DateTime> DateNoted { get; set; }
 
         [Display(Name = "Property")]
         public int PropertyId { get; set; }
