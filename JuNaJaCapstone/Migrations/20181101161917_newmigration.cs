@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace JuNaJaCapstone.Data.Migrations
+namespace JuNaJaCapstone.Migrations
 {
-    public partial class CreateIdentitySchema : Migration
+    public partial class newmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -153,6 +153,74 @@ namespace JuNaJaCapstone.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Property",
+                columns: table => new
+                {
+                    PropertyId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Address = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Bedrooms = table.Column<int>(nullable: false),
+                    Bathrooms = table.Column<int>(nullable: false),
+                    Rent = table.Column<double>(nullable: false),
+                    Mortgage = table.Column<double>(nullable: false),
+                    Rented = table.Column<bool>(nullable: false),
+                    UserId = table.Column<string>(nullable: false),
+                    DateSold = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Property", x => x.PropertyId);
+                    table.ForeignKey(
+                        name: "FK_Property_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PropertyImage",
+                columns: table => new
+                {
+                    ImageId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ImgURL = table.Column<string>(nullable: true),
+                    PropertyId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PropertyImage", x => x.ImageId);
+                    table.ForeignKey(
+                        name: "FK_PropertyImage_Property_PropertyId",
+                        column: x => x.PropertyId,
+                        principalTable: "Property",
+                        principalColumn: "PropertyId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PropertyNote",
+                columns: table => new
+                {
+                    NoteId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    NoteText = table.Column<string>(nullable: true),
+                    DateNoted = table.Column<DateTime>(nullable: true),
+                    PropertyId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PropertyNote", x => x.NoteId);
+                    table.ForeignKey(
+                        name: "FK_PropertyNote_Property_PropertyId",
+                        column: x => x.PropertyId,
+                        principalTable: "Property",
+                        principalColumn: "PropertyId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -191,6 +259,21 @@ namespace JuNaJaCapstone.Data.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Property_UserId",
+                table: "Property",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PropertyImage_PropertyId",
+                table: "PropertyImage",
+                column: "PropertyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PropertyNote_PropertyId",
+                table: "PropertyNote",
+                column: "PropertyId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -211,7 +294,16 @@ namespace JuNaJaCapstone.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "PropertyImage");
+
+            migrationBuilder.DropTable(
+                name: "PropertyNote");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Property");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

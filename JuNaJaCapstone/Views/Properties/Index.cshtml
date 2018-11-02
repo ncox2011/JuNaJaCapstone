@@ -4,52 +4,61 @@
     ViewData["Title"] = "Properties";
 }
 
-<h2>Index</h2>
+@if (User.Identity.IsAuthenticated)
+{
+    <h2>Property List</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Bedrooms)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Bathrooms)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rented)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-    if (item.DateSold == null)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Bedrooms)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Bathrooms)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rented)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.PropertyId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PropertyId">Details</a>
-            </td>
-        </tr>
-    }
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Address)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Bedrooms)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Bathrooms)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Rented)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                if (item.DateSold == null)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Bedrooms)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Bathrooms)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Rented)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.PropertyId">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.PropertyId">Details</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
 }
-    </tbody>
-</table>
+else
+{
+    <h1>Please Register or Login to view properties.</h1>
+}
+

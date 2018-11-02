@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using JuNaJaCapstone.Data;
 using JuNaJaCapstone.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace JuNaJaCapstone.Controllers
 {
@@ -14,10 +15,15 @@ namespace JuNaJaCapstone.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public PropertiesController(ApplicationDbContext context)
+        private readonly UserManager<IdentityUser> _userManager;
+
+        public PropertiesController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
+
+        private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Properties
         public async Task<IActionResult> Index()
@@ -48,7 +54,7 @@ namespace JuNaJaCapstone.Controllers
         }
 
         // GET: Properties/Create
-        public IActionResult Create()
+        public  IActionResult Create()
         {
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
@@ -59,13 +65,15 @@ namespace JuNaJaCapstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PropertyId,Address,Description,Bedrooms,Bathrooms,Rent,Mortgage,Rented,UserId,DateSold")] Property property)
+        public async Task<IActionResult> Create([Bind("PropertyId,Address,Description,Bedrooms,Bathrooms,Rent,Mortgage,Rented,DateSold")] Property property)
         {
             // Remove the user from the model validation because it is
             // not information posted in the form
             ModelState.Remove("User");
             if (ModelState.IsValid)
             {
+                IdentityUser user = await GetCurrentUserAsync();
+                property.UserId = user.Id;
                 _context.Add(property);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Details", new { id = property.PropertyId });

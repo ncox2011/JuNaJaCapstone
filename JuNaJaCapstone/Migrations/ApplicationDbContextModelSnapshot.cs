@@ -4,16 +4,14 @@ using JuNaJaCapstone.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace JuNaJaCapstone.Data.Migrations
+namespace JuNaJaCapstone.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181024195357_addedPropId")]
-    partial class addedPropId
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,6 +51,23 @@ namespace JuNaJaCapstone.Data.Migrations
                     b.ToTable("Property");
                 });
 
+            modelBuilder.Entity("JuNaJaCapstone.Models.PropertyImage", b =>
+                {
+                    b.Property<int>("ImageId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImgURL");
+
+                    b.Property<int>("PropertyId");
+
+                    b.HasKey("ImageId");
+
+                    b.HasIndex("PropertyId");
+
+                    b.ToTable("PropertyImage");
+                });
+
             modelBuilder.Entity("JuNaJaCapstone.Models.PropertyNote", b =>
                 {
                     b.Property<int>("NoteId")
@@ -63,7 +78,7 @@ namespace JuNaJaCapstone.Data.Migrations
 
                     b.Property<string>("NoteText");
 
-                    b.Property<int?>("PropertyId");
+                    b.Property<int>("PropertyId");
 
                     b.HasKey("NoteId");
 
@@ -245,11 +260,20 @@ namespace JuNaJaCapstone.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("JuNaJaCapstone.Models.PropertyImage", b =>
+                {
+                    b.HasOne("JuNaJaCapstone.Models.Property", "Property")
+                        .WithMany("Images")
+                        .HasForeignKey("PropertyId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("JuNaJaCapstone.Models.PropertyNote", b =>
                 {
                     b.HasOne("JuNaJaCapstone.Models.Property", "Property")
                         .WithMany("Notes")
-                        .HasForeignKey("PropertyId");
+                        .HasForeignKey("PropertyId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
