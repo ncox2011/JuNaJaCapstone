@@ -1,0 +1,23 @@
+﻿@model IEnumerable<JuNaJaCapstone.Models.Property>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <h2>Search Results</h2>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.PropertyId"> @Html.DisplayFor(modelItem => item.Address) </a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
